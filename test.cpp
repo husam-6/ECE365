@@ -7,8 +7,6 @@
 #include <string>
 #include <algorithm>
 
-
-
 using namespace std; 
 
 //Constructor -> initialize the size using getPrime and make every entry a default hashItem()
@@ -185,10 +183,20 @@ int main()
     test.insert("Yessir");
     test.insert("letsgo");
     test.insert("dope");
+    
     // test.insert("letsgo");
 
-    test.showVals();
-    cout<< std::boolalpha;
-    cout<< test.contains("7yuh") << '\n';
+    // test.showVals();
+    // cout<< std::boolalpha;
+    // cout<< test.contains("7yuh") << '\n';
+    string Line = "TESTING";
+
+    for (int i = 0; i < Line.length(); i++)
+  	{
+  		Line[i] = tolower(Line[i]);
+    }
+
+    cout<<Line<<'\n';
+
     return 0;
 }

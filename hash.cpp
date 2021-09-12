@@ -63,12 +63,18 @@ int hashTable::insert(const string &key, void *pv)
     return returnVal; 
 }
 
-void hashTable::showVals()
+//Function to display all the inputted items into the hash table
+void hashTable::showVals(string& out)
 {
+    ofstream output;
+    output.open(out);
+
+
     for(int i = 0; i<data.size(); i++)
     {
-        cout<< i << "      " << data[i].key << '\n';
+        output<< i << "      " << data[i].key << '\n';
     }
+    output.close();
 }
 //Contains function -> checks if the hash table has a hashItem object 
 //occupying that position
@@ -101,14 +107,33 @@ bool hashTable::remove(const string &key)
 //Hash function -> from https://stackoverflow.com/questions/7700400/whats-a-good-hash-function-for-english-words
 int hashTable::hash(const string &key)
 {
-    int hash = 5381;
-    char c;
+    // int hash = 5381;
+    // char c;
 
-    for(int i = 0; i<key.size(); i++)
-        c = key[i];
-        hash = ((hash << 5) + hash) + c; /* hashNum * 33 + c */
+    // for(int i = 0; i<key.size(); i++)
+    //     c = key[i];
+    //     hash = ((hash << 5) + hash) + c; /* hashNum * 33 + c */
 
-    return hash%capacity;
+    // return hash%capacity;
+    {
+    // P and M
+    int p = 31;
+    int m = 1e9 + 9;
+    long long power_of_p = 1;
+    int hash_val = 0;
+ 
+    // Loop to calculate the hash value
+    // by iterating over the elements of string
+    for (int i = 0; i < key.length(); i++) {
+        hash_val
+            = (hash_val
+               + (key[i] - 'a' + 1) * power_of_p)
+              % m;
+        power_of_p
+            = (power_of_p * p) % m;
+    }
+    return hash_val%capacity;
+}
 }
 
 //Goes to the hashed position and linearly searches for the given
@@ -166,7 +191,7 @@ bool hashTable::rehash()
 //works, gives a prime number at least as large as the given size
 unsigned int hashTable::getPrime(int size = 0)
 {
-    int primeNums[11] = {11, 20, 24593, 49157, 98317, 196613, 393241, 786433, 1572869, 3145739, 6291469};
+    int primeNums[11] = {24593, 49157, 98317, 196613, 393241, 786433, 1572869, 3145739, 6291469};
     for(int i = 0; i<11; i++)
     {
         if(primeNums[i]>size)
