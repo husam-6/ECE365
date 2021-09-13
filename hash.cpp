@@ -42,7 +42,7 @@ int hashTable::insert(const string &key, void *pv)
         }
     }
     int pos = hash(key);
-    if(contains(key))
+    if(data[pos].isOccupied)
     {
         returnVal = 1;
         while(data[pos].isOccupied)
@@ -81,12 +81,18 @@ void hashTable::showVals(string& out)
 bool hashTable::contains(const string &key)
 {
     int position = hash(key);
-    if(data[position].isOccupied)
+    while(data[position].isOccupied)
     {
-        return true; 
+        if(data[position].key == key)
+        {
+            return true;  
+        }
+        else
+        {
+            position++; 
+        }
     }
     return false; 
-    
 }
 
 //didnt really test, dont need for proj 1
@@ -104,7 +110,9 @@ bool hashTable::remove(const string &key)
 
 
 //seems to work 
-//Hash function -> from https://stackoverflow.com/questions/7700400/whats-a-good-hash-function-for-english-words
+//Hash function -> from https://www.geeksforgeeks.org/string-hashing-using-polynomial-rolling-hash-function/
+//Polynomial Rolling Hash function
+//not using an unsigned int... 
 int hashTable::hash(const string &key)
 {
     // int hash = 5381;
