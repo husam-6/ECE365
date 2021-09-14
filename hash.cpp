@@ -128,7 +128,7 @@ int hashTable::hash(const string &key)
     int p = 31;
     int m = 1e9 + 9;
     long long power_of_p = 1;
-    int hash_val = 0;
+    unsigned hash_val = 0;
  
     // Loop to calculate the hash value
     // by iterating over the elements of string
