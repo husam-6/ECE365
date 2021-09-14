@@ -131,7 +131,7 @@ int main()
     readInDict(dict, table);
     auto stop = high_resolution_clock::now();
     auto duration = duration_cast<microseconds>(stop - start);
-    cout<<"Time taken to read in Dictionary: " << double(duration.count())/(pow(10,6)) << '\n';
+    cout<<"Time taken to read in Dictionary (in seconds): " << double(duration.count())/(pow(10,6)) << '\n';
 
     //spell check the document and report time
 	cout<< "Enter the name of a document to spell check: ";
@@ -144,8 +144,6 @@ int main()
     auto stop2 = high_resolution_clock::now();
     auto duration2 = duration_cast<microseconds>(stop2 - start2);
     cout<<"Time taken to spell check the document (in seconds): " << double(duration2.count())/(pow(10,6)) << '\n';
-
-
 
     //table.showVals(output);
 
