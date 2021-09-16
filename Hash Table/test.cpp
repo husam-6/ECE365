@@ -50,13 +50,21 @@ tuple<string, int> split(string& line, int iterator)
 
 int main()
 {
-    string test = "///////Um-deedledeedledeedle&////// um-deedleday";
+    string test = "///////Um-deedledeedledeedle&///223ssd2%///%&um-deedleday";
     //string test = "/";
-    auto [tmp, non] = split(test,0);
+    int i = 0;
+    auto [tmp, non] = split(test,i);
     cout << tmp << '\n';
     
-    auto [tmp2, non2] = split(test, non+tmp.size());
+    i += tmp.size()+non;
+
+    auto [tmp2, non2] = split(test, i);
     cout << tmp2 << '\n';
+
+    i += tmp2.size()+non2;
+
+    auto [tmp3, non3] = split(test, i);
+    cout << tmp3 << '\n';
 
     //cout << split(test, tmp.size()+1) << '\n';
     return 0;
