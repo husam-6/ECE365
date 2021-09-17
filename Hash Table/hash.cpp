@@ -79,19 +79,12 @@ void hashTable::showVals(string& out)
 //occupying that position
 bool hashTable::contains(const string &key)
 {
-    int position = hash(key);
-    while(data[position].isOccupied)
+    int i = findPos(key); 
+    if(i == -1)
     {
-        if(data[position].key == key)
-        {
-            return true;  
-        }
-        else
-        {
-            position++; 
-        }
+        return false;
     }
-    return false; 
+    return true; 
 }
 
 //didnt really test, dont need for proj 1
@@ -146,7 +139,14 @@ int hashTable::findPos(const string &key)
         }
         else
         {
-            pos++; 
+            if(pos == capacity)
+            {
+                pos = 0; 
+            }
+            else
+            {
+                pos++; 
+            }
         }
     }
     return -1;
