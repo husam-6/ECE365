@@ -10,16 +10,20 @@
 #include <math.h>
 
 using namespace std;
-using namespace std::chrono;
 
-string toLower(string &line)
-{
-    for (int i = 0; i < line.length(); i++)
-    {
-        line[i] = tolower(line[i]);
-    }
-    return line; 
+
+double getCpuTime() {
+    return (double) clock() / CLOCKS_PER_SEC;
 }
+
+// string toLower(string &line)
+// {
+//     for (int i = 0; i < line.length(); i++)
+//     {
+//         line[i] = tolower(line[i]);
+//     }
+//     return line; 
+// }
 
 void readInDict(string &dict, hashTable &table)
 {
@@ -29,8 +33,8 @@ void readInDict(string &dict, hashTable &table)
 
     while(getline(dictionary, line))
     {
-        line = toLower(line);
-
+        //line = toLower(line);
+        transform(line.begin(), line.end(), line.begin(), ::tolower);
         table.insert(line);
     }
     
@@ -89,7 +93,8 @@ void spellCheck(string &doc, string &out, hashTable &table)
     {
         //make the entire line lowercase, build
         //the word limiting it to 20 chars 
-        line = toLower(line);
+        //line = toLower(line);
+        transform(line.begin(), line.end(), line.begin(), ::tolower);
 
         int nonChar = 0; 
         int i = 0;
@@ -137,12 +142,12 @@ int main()
     hashTable table(1000);
     cout << "Enter the name of a dictionary text file: ";
 	cin >> dict; 
-    
-    auto start = high_resolution_clock::now();
+
+    double start = getCpuTime();
     readInDict(dict, table);
-    auto stop = high_resolution_clock::now();
-    auto duration = duration_cast<microseconds>(stop - start);
-    cout<<"Time taken to read in Dictionary (in seconds): " << double(duration.count())/(pow(10,6)) << '\n';
+    double end = getCpuTime();
+    double duration = end-start;
+    cout<<"Time taken to read in Dictionary (in seconds): " << duration << '\n';
 
     //spell check the document and report time
 	cout<< "Enter the name of a document to spell check: ";
@@ -150,13 +155,14 @@ int main()
     cout << "Enter the name of an output file: ";
     cin >> output;
 
-    auto start2 = high_resolution_clock::now();
+    double start2 = getCpuTime();
     spellCheck(doc, output, table);
-    auto stop2 = high_resolution_clock::now();
-    auto duration2 = duration_cast<microseconds>(stop2 - start2);
-    cout<<"Time taken to spell check the document (in seconds): " << double(duration2.count())/(pow(10,6)) << '\n';
+    double end2 = getCpuTime();
+    double duration2 = end2 - start2; 
+    cout<<"Time taken to spell check the document (in seconds): " << duration2 << '\n';
 
-    //table.showVals(output);
+    string out = "values.txt";
+    table.showVals(out);
 
     return 0; 
 }

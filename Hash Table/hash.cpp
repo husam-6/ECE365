@@ -15,10 +15,9 @@ using namespace std;
 //seems to be working...
 hashTable::hashTable(int size)
 {
-    int newSize = getPrime(size);
-    data.resize(newSize);
-    capacity = newSize; 
     filled = 0; 
+    capacity = getPrime(size);
+    data.resize(capacity);
     for(auto& entry: data)
     {
         entry = hashItem();
@@ -27,18 +26,17 @@ hashTable::hashTable(int size)
 
 //insert function -> check if key exists, if it does - linear probing
 //else, insert 
-//seems to work NEED TO MAKE LOWERCASE
 int hashTable::insert(const string &key, void *pv)
 {
     int returnVal = 0;
     filled++; 
     //cout<<double(filled)/double(capacity)<<'\n';
-    if((double(filled)/double(capacity))>0.75) 
+    if((double(filled)/double(capacity))>0.5) 
     {
         bool fail = rehash(); 
-        if(fail)
+        if(!fail)
         {
-            returnVal = 2; 
+            return 2; 
         }
     }
     int pos = hash(key);
@@ -74,6 +72,7 @@ void hashTable::showVals(string& out)
     {
         output<< i << "      " << data[i].key << '\n';
     }
+
     output.close();
 }
 //Contains function -> checks if the hash table has a hashItem object 
@@ -115,15 +114,6 @@ bool hashTable::remove(const string &key)
 //not using an unsigned int... 
 int hashTable::hash(const string &key)
 {
-    // int hash = 5381;
-    // char c;
-
-    // for(int i = 0; i<key.size(); i++)
-    //     c = key[i];
-    //     hash = ((hash << 5) + hash) + c; /* hashNum * 33 + c */
-
-    // return hash%capacity;
-    {
     // P and M
     int p = 31;
     int m = 1e9 + 9;
@@ -141,7 +131,6 @@ int hashTable::hash(const string &key)
             = (power_of_p * p) % m;
     }
     return hash_val%capacity;
-}
 }
 
 //Goes to the hashed position and linearly searches for the given
@@ -168,13 +157,7 @@ bool hashTable::rehash()
     int newSize = getPrime(capacity);
     //cout<<newSize<< "   " << capacity << '\n';
     vector<hashItem> tmp = data; 
-
-    for(int i = 0; i<capacity; i++)
-    {
-        data[i].key = "";
-        data[i].isOccupied = false;
-        data[i].isDeleted = false;
-    }
+    data.clear();
     filled = 0;  
 
     try
@@ -199,7 +182,7 @@ bool hashTable::rehash()
 //works, gives a prime number at least as large as the given size
 unsigned int hashTable::getPrime(int size = 0)
 {
-    int primeNums[11] = {24593, 49157, 98317, 196613, 393241, 786433, 1572869, 3145739, 6291469};
+    int primeNums[8] =  {98317, 393241, 1572869, 6291469, 25165843, 100663319, 402653189, 1610612741};
     for(int i = 0; i<11; i++)
     {
         if(primeNums[i]>size)
@@ -207,5 +190,5 @@ unsigned int hashTable::getPrime(int size = 0)
             return primeNums[i];
         }
     }
-    return primeNums[10];
+    return primeNums[4];
 }
