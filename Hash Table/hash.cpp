@@ -7,12 +7,26 @@
 #include <string>
 #include <algorithm>
 
+/*
+    Husam Almanakly - DSA2 Program 1
+
+    This program implements a Hash Table data structure, with the purpose to 
+    read in and spell check a given document (given a dictionary). This file
+    (hash.cpp) contains all the files and implementations of the Hash Table data
+    structure, required from the header file. 
+
+    The File labelled spellcheck.cpp parses the inputted dictionary, inserting elements into a 
+    hash table, and reads in a text document. It checks if each item exists in the hash table
+    and records which items are unknown, (including words above 20 characters).
+
+    Makefile is provided, run make to create the executable spell.exe
+
+*/
 
 using namespace std; 
 
 //Constructor -> initialize the size using getPrime and make every entry a default hashItem()
 //Capacity gets the size of the vector
-//seems to be working...
 hashTable::hashTable(int size)
 {
     filled = 0; 
@@ -40,6 +54,7 @@ int hashTable::insert(const string &key, void *pv)
         }
     }
     int pos = hash(key);
+    //cout << pos << '\n';
     if(data[pos].isOccupied)
     {
         returnVal = 1;
@@ -61,20 +76,6 @@ int hashTable::insert(const string &key, void *pv)
     return returnVal; 
 }
 
-//Function to display all the inputted items into the hash table
-void hashTable::showVals(string& out)
-{
-    ofstream output;
-    output.open(out);
-
-
-    for(int i = 0; i<data.size(); i++)
-    {
-        output<< i << "      " << data[i].key << '\n';
-    }
-
-    output.close();
-}
 //Contains function -> checks if the hash table has a hashItem object 
 //occupying that position
 bool hashTable::contains(const string &key)
@@ -87,7 +88,6 @@ bool hashTable::contains(const string &key)
     return true; 
 }
 
-//didnt really test, dont need for proj 1
 //Lazy delete for linear probing
 bool hashTable::remove(const string &key)
 {
@@ -101,10 +101,8 @@ bool hashTable::remove(const string &key)
 }
 
 
-//seems to work 
 //Hash function -> from https://www.geeksforgeeks.org/string-hashing-using-polynomial-rolling-hash-function/
 //Polynomial Rolling Hash function
-//not using an unsigned int... 
 int hashTable::hash(const string &key)
 {
     // P and M
@@ -170,16 +168,19 @@ bool hashTable::rehash()
     }
     capacity = newSize;
 
-    for(auto& x : tmp)
+    for(int i = 0; i<tmp.size(); i++)
     {
-        insert(x.key);
+        if((tmp[i].isOccupied == true) && (tmp[i].isDeleted == false))
+        {
+            insert(tmp[i].key);
+        }
     }
 
     //data = tmp; 
     return true; 
 }
 
-//works, gives a prime number at least as large as the given size
+//Gives a prime number at least as large as the given size
 unsigned int hashTable::getPrime(int size = 0)
 {
     int primeNums[8] =  {98317, 393241, 1572869, 6291469, 25165843, 100663319, 402653189, 1610612741};
@@ -191,4 +192,17 @@ unsigned int hashTable::getPrime(int size = 0)
         }
     }
     return primeNums[4];
+}
+
+// //Function to display all the inputted items into the hash table
+void hashTable::showVals(std::string &out)
+{
+    std::ofstream output;
+    output.open(out);
+
+    for(int i = 0; i<data.size(); i++)
+    {
+        output<< i << "      " << data[i].key << '\n';
+    }
+    output.close();
 }

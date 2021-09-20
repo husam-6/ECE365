@@ -11,7 +11,7 @@
 
 using namespace std;
 
-
+//function to get the number of seconds 
 double getCpuTime() {
     return (double) clock() / CLOCKS_PER_SEC;
 }
@@ -25,6 +25,7 @@ double getCpuTime() {
 //     return line; 
 // }
 
+//function reads in the dictionary, inserts each element
 void readInDict(string &dict, hashTable &table)
 {
     string line; 
@@ -41,7 +42,8 @@ void readInDict(string &dict, hashTable &table)
     dictionary.close();
 }
 
-//Need to fix bug for multiple string separators 
+//Function parses inputted string according to valid characters
+//allowed. Returns the string and the number of extra characters preceding 
 tuple<string, int> split(string& line, int iterator)
 {
     int nonChar = 0; 
@@ -68,6 +70,7 @@ tuple<string, int> split(string& line, int iterator)
     return {out,nonChar}; 
 }
 
+//Function checks if the word has any numbers in it 
 bool hasDigits(string& word)
 {
     for (int i = 0; i < word.size(); i++)
@@ -80,6 +83,8 @@ bool hasDigits(string& word)
     return false;
 }
 
+//Function parses input document line by line, using split function
+//to parse lines. Checks if a word is too long, or if its known or not
 void spellCheck(string &doc, string &out, hashTable &table)
 {
     string line; 
