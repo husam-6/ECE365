@@ -1,8 +1,16 @@
 #ifndef _HASH_H
 #define _HASH_H
 
+#include <iostream>
+#include <list>
+#include <fstream>
+#include <sstream>
 #include <vector>
 #include <string>
+#include <algorithm>
+#include <chrono>
+#include <math.h>
+
 
 class hashTable {
 

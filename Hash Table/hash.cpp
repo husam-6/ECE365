@@ -1,11 +1,4 @@
 #include "hash.h"
-#include <iostream>
-#include <list>
-#include <fstream>
-#include <sstream>
-#include <vector>
-#include <string>
-#include <algorithm>
 
 /*
     Husam Almanakly - DSA2 Program 1
@@ -89,6 +82,7 @@ bool hashTable::contains(const string &key)
 }
 
 //Lazy delete for linear probing
+//Not needed for project 1, but included anyway
 bool hashTable::remove(const string &key)
 {
     int tmp = findPos(key);
@@ -103,6 +97,7 @@ bool hashTable::remove(const string &key)
 
 //Hash function -> from https://www.geeksforgeeks.org/string-hashing-using-polynomial-rolling-hash-function/
 //Polynomial Rolling Hash function
+//Returns unsigned int to avoid negative hash keys
 int hashTable::hash(const string &key)
 {
     // P and M
@@ -150,6 +145,10 @@ int hashTable::findPos(const string &key)
     return -1;
 }
 
+//Rehash function, resizes the original data array, storing entries
+//in a temporary array. After catching any errors allocating extra memory, 
+//insertions are repeated for any items in the old array that had an existing 
+//element in it
 bool hashTable::rehash()
 {
     int newSize = getPrime(capacity);
@@ -181,6 +180,7 @@ bool hashTable::rehash()
 }
 
 //Gives a prime number at least as large as the given size
+//Array is spaced out to be more than double the size of the previous 
 unsigned int hashTable::getPrime(int size = 0)
 {
     int primeNums[8] =  {98317, 393241, 1572869, 6291469, 25165843, 100663319, 402653189, 1610612741};
@@ -194,7 +194,8 @@ unsigned int hashTable::getPrime(int size = 0)
     return primeNums[4];
 }
 
-// //Function to display all the inputted items into the hash table
+//Function to display all the inputted items into the hash table
+//Used for testing/debugging 
 void hashTable::showVals(std::string &out)
 {
     std::ofstream output;

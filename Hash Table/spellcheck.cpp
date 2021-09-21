@@ -1,13 +1,4 @@
 #include "hash.h"
-#include <iostream>
-#include <list>
-#include <fstream>
-#include <sstream>
-#include <vector>
-#include <string>
-#include <algorithm>
-#include <chrono>
-#include <math.h>
 
 using namespace std;
 
@@ -15,15 +6,6 @@ using namespace std;
 double getCpuTime() {
     return (double) clock() / CLOCKS_PER_SEC;
 }
-
-// string toLower(string &line)
-// {
-//     for (int i = 0; i < line.length(); i++)
-//     {
-//         line[i] = tolower(line[i]);
-//     }
-//     return line; 
-// }
 
 //function reads in the dictionary, inserts each element
 void readInDict(string &dict, hashTable &table)
@@ -44,6 +26,7 @@ void readInDict(string &dict, hashTable &table)
 
 //Function parses inputted string according to valid characters
 //allowed. Returns the string and the number of extra characters preceding 
+//'Builds' each word character by character
 tuple<string, int> split(string& line, int iterator)
 {
     int nonChar = 0; 
@@ -71,6 +54,7 @@ tuple<string, int> split(string& line, int iterator)
 }
 
 //Function checks if the word has any numbers in it 
+//Used to decide if a word must be considered or not
 bool hasDigits(string& word)
 {
     for (int i = 0; i < word.size(); i++)
@@ -98,7 +82,6 @@ void spellCheck(string &doc, string &out, hashTable &table)
     {
         //make the entire line lowercase, build
         //the word limiting it to 20 chars 
-        //line = toLower(line);
         transform(line.begin(), line.end(), line.begin(), ::tolower);
 
         int nonChar = 0; 
@@ -139,6 +122,8 @@ void spellCheck(string &doc, string &out, hashTable &table)
     } 
 }
 
+//Main, calls the functions to read in the dict and test file
+//reports the cpu time to execute in seconds
 int main()
 {   
     //Read in dictionary file and text file... 
