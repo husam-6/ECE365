@@ -13,6 +13,12 @@
 #include <utility>
 #include "hash.h" 
 
+/*
+    Header file for the heap data structure
+    Declares all public and private member functions and data members for usage
+    in heap.cpp
+*/
+
 class heap 
 {
     public: 
@@ -58,10 +64,12 @@ class heap
                 heapNode() = default;
         };
 
+        //Functions implemented to cleanly percolate up/down and get the position of a given 
+        //heapNode
         void percolateUp(int pos);
         void percolateDown(int pos);
         int getPos(heapNode *pn);
-        
+
         int capacity; 
         int size; 
         std::vector<heapNode> nodes; 

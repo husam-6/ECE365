@@ -2,6 +2,16 @@
 
 using namespace std;
 
+/*
+    Husam Almanakly - DSA 2 Program 2
+
+    This program implements a binary heap datastructure using the hash map class implemented in project 1. 
+    The heap supports the functions insert, deleteMin, setKey, and remove implemented using average 
+    case logarithmic time. 
+
+
+*/
+
 int heap::showVals(string &out)
 {
     // std::ofstream output;
@@ -110,7 +120,7 @@ int heap::insert(const string &id, int key, void* pv)
     return 0; 
 }
 
-//Works
+// Works
 int heap::getPos(heapNode *pn)
 {
     int pos = pn - &nodes[0];
@@ -124,9 +134,9 @@ int heap::deleteMin(std::string *pid, int *pKey, void *ppData)
     if(size == 1)
         return 1; 
     if(pid!=nullptr)
-        pid = &nodes[1].id;
+        *pid = nodes[1].id;
     if(pid!=nullptr)
-        pKey = &nodes[1].key;
+        *pKey = nodes[1].key;
     if(ppData != nullptr)
         *(static_cast<void **> (ppData)) = nodes[1].pData;
 
@@ -178,7 +188,7 @@ int heap::remove(std::string id, int *pKey, void *ppData)
     
     heapNode* object = static_cast<heapNode *> (idMappings.getPointer(id)); 
     if(pKey!=nullptr)
-        pKey = &object->key; 
+        *pKey = object->key; 
     if(ppData != nullptr)
         *(static_cast<void **> (ppData)) = object->pData;
 
