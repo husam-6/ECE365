@@ -35,7 +35,6 @@ heap::heap(int maxSize):idMappings(maxSize*2)
 }
 
 
-//NOTE: Seems to be working, 
 //Function to percolate up 
 void heap::percolateUp(int pos)
 {
@@ -56,7 +55,6 @@ void heap::percolateUp(int pos)
     idMappings.setPointer(nodes[pos].id, &nodes[pos]);
 }
 
-//NOTE: Seems to be working
 //Function to percolate down
 void heap::percolateDown(int pos)
 {
@@ -87,11 +85,10 @@ void heap::percolateDown(int pos)
     idMappings.setPointer(nodes[pos].id, &nodes[pos]);
 }
 
-//NOTE: seems to be working
 int heap::insert(const string &id, int key, void* pv)
 {   
     //Check exit conditions
-    if (size == capacity)
+    if (size-1 == capacity)
         return 1;
     else if (idMappings.contains(id))
         return 2; 
@@ -107,20 +104,22 @@ int heap::insert(const string &id, int key, void* pv)
     
     //Percolate up or not
     nodes[size] = tmp; 
+    
+    //Add the key and its index to the mappings hash map
+    idMappings.insert(id, &nodes[size]);
+    
     int hole = size; 
     size++; 
+
     
     // hole = percolateUp(hole, tmpKey);
     percolateUp(hole);
     // nodes[hole] = tmp;
 
-    //Add the key and its index to the mappings hash map
-    idMappings.insert(id, &nodes[hole]);
 
     return 0; 
 }
 
-// Works
 int heap::getPos(heapNode *pn)
 {
     int pos = pn - &nodes[0];
@@ -128,7 +127,6 @@ int heap::getPos(heapNode *pn)
 }
 
 
-//NOTE: seems to be working as well
 int heap::deleteMin(std::string *pid, int *pKey, void *ppData)
 {
     if(size == 1)
@@ -150,12 +148,10 @@ int heap::deleteMin(std::string *pid, int *pKey, void *ppData)
     percolateDown(1);
 
 
-
     return 0; 
 
 }
 
-//NOTE: Seems to be working
 int heap::setKey(const std::string &id, int key)
 {   
     if(idMappings.contains(id) == false)
@@ -180,22 +176,22 @@ int heap::setKey(const std::string &id, int key)
 }
 
 
-//NOTE: Seems to be working
 int heap::remove(std::string id, int *pKey, void *ppData)
 {
     if(idMappings.contains(id) == false)
         return 1; 
     
     heapNode* object = static_cast<heapNode *> (idMappings.getPointer(id)); 
+    
     if(pKey!=nullptr)
         *pKey = object->key; 
     if(ppData != nullptr)
         *(static_cast<void **> (ppData)) = object->pData;
 
-    // cout<<"Changing "<<nodes[0].key<<'\n';
+    
     setKey(id, nodes[1].key-1);
     deleteMin();
-    // cout<<"Changed to 69"<<'\n';
+    
     return 0; 
 
 }

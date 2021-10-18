@@ -116,7 +116,9 @@ int main()
 
       break;
 
+
     case 5:
+
       cout << "\nGoodbye!\n";
       exit(0);
 
@@ -130,7 +132,7 @@ int main()
   exit (1);
 }
 
-//test main 
+// test main 
 // int main()
 // {
 //   heap test(10);
@@ -144,15 +146,18 @@ int main()
 //   rVal = test.insert("seven", 9);
 //   rVal = test.insert("eight", 1);
 //   rVal = test.insert("nine", 100);
-//   rVal = test.deleteMin();
-//   rVal = test.insert("eight", 1);
-//   rVal = test.deleteMin();
-//   rVal = test.deleteMin();
-//   test.setKey("two", 8);
-//   test.setKey("six", 1);
-//   // test.insert("ten", -1);
+//   string outId; 
+//   int outKey;
+//   rVal = test.deleteMin(&outId, &outKey);
+//   cout<< "Deleted " << outId << " with key " << outKey << '\n';
+//   // rVal = test.insert("eight", 1);
+//   // rVal = test.deleteMin();
+//   // rVal = test.deleteMin();
+//   // test.setKey("two", 8);
+//   // test.setKey("six", 1);
+//   // // test.insert("ten", -1);
 
-//   test.remove("nine");
+//   // test.remove("nine");
 
   
 
